@@ -1,0 +1,18 @@
+{
+    "configurations": [
+        {
+            "name": "Linux",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "${env:HOME}/repos/zephyr/**",
+                "${env:HOME}/repos/zephyr/zephyr/include"
+            ],
+            "defines": [],
+            "compilerPath": "${env:HOME}/apps/zephyr-sdk-0.10.3/arm-zephyr-eabi/bin/arm-zephyr-eabi-gcc",
+            "cStandard": "c11",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "gcc-x86"
+        }
+    ],
+    "version": 4
+}
