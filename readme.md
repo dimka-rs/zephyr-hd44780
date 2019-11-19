@@ -2,6 +2,9 @@
 
 Simple project to play with common 16x2 LCD on **nRF52** using **Zephyr OS**.
 
+![Photo](/img/photo.jpg "Photo")
+
+
 # build and flash
 
     west build -t pristine
