@@ -17,17 +17,27 @@ hd44780_pulse()
 {
     // en
     gpio_pin_write(disp.port, disp.pin[EN], 1);
-    // wait 50 ms
-    // TODO: what timing shoud be?
-    k_sleep(50);
+    // ds says min 1 us, but only 1000 works reliably
+    k_usleep(1000);
     // dis
     gpio_pin_write(disp.port, disp.pin[EN], 0);
+}
+
+inline static void
+hd44780_nibble(u8_t n)
+{
+    gpio_pin_write(disp.port, disp.pin[RS], 0); //cmd
+    gpio_pin_write(disp.port, disp.pin[D7], (n & (1 << 7)) ? 1 : 0);
+    gpio_pin_write(disp.port, disp.pin[D6], (n & (1 << 6)) ? 1 : 0);
+    gpio_pin_write(disp.port, disp.pin[D5], (n & (1 << 5)) ? 1 : 0);
+    gpio_pin_write(disp.port, disp.pin[D4], (n & (1 << 4)) ? 1 : 0);
+    hd44780_pulse();
 }
 
 static void
 hd44780_byte(u8_t b)
 {
-    // hogh nibble
+    // high nibble
     gpio_pin_write(disp.port, disp.pin[D7], (b & (1 << 7)) ? 1 : 0);
     gpio_pin_write(disp.port, disp.pin[D6], (b & (1 << 6)) ? 1 : 0);
     gpio_pin_write(disp.port, disp.pin[D5], (b & (1 << 5)) ? 1 : 0);
@@ -39,6 +49,9 @@ hd44780_byte(u8_t b)
     gpio_pin_write(disp.port, disp.pin[D5], (b & (1 << 1)) ? 1 : 0);
     gpio_pin_write(disp.port, disp.pin[D4], (b & (1 << 0)) ? 1 : 0);
     hd44780_pulse();
+
+    // most commands take about 37 us, 1000 to be safe
+    k_usleep(1000);
 }
 
 void
@@ -53,10 +66,8 @@ void
 hd44780_cmd(u8_t cmd, u8_t flags)
 {
     cmd |= flags;
-
     // rs low - command
     gpio_pin_write(disp.port, disp.pin[RS], 0);
-
     hd44780_byte(cmd);
 }
 
@@ -96,8 +107,15 @@ hd44780_init()
         gpio_pin_configure(disp.port, disp.pin[i], GPIO_DIR_OUT);
     }
 
+    // display starts in 8 bit mode, so first command must pulse enable only once
+    // _nibble will do this using only high nibble, though only bus width can be set
+    hd44780_nibble(0x20);
+    // this command is long
+    k_sleep(10);
     hd44780_cmd(HD44780_CMD_CONFIG, HD44780_CONFIG_2LINES|HD44780_CONFIG_5X8|HD44780_CONFIG_DATA4);
+    k_sleep(10);
     hd44780_cmd(HD44780_CMD_ONOFF, HD44780_ONOFF_DISP_ON);
+    k_sleep(10);
 
     printk("HD44780 init done\n");
 }
