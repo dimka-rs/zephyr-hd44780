@@ -4,31 +4,40 @@
 #include <drivers/gpio.h>
 #include "button.h"
 
-static struct gpio_callback gpio_cb;
-struct device *btn0;
+static struct btns_s btns = {
+    .port = NULL,
+    .btn[BTN1] = BTN1_PIN,
+    .btn[BTN2] = BTN2_PIN,
+    .btn[BTN3] = BTN3_PIN,
+    .btn[BTN4] = BTN4_PIN,
+};
+
+static struct gpio_callback gpio_cb[BTNS_MAX];
 
 void
 button_pressed(struct device *btn, struct gpio_callback *cb,
             uint32_t pins)
 {
-    printk("Button pressed at %" PRIu32 "\n", k_cycle_get_32());
+    printk("Button %d pressed at %" PRIu32 "\n", pins,  k_cycle_get_32());
 }
 
 void
-button_init(struct device *btn)
+button_init()
 {
-    btn = device_get_binding(BTN_PORT);
-    if (!btn) {
+    btns.port = device_get_binding(BTN_PORT);
+    if (!btns.port) {
         printk("Get btn binding error\n");
         return;
     }
 
-    gpio_pin_configure(btn, BTN_PIN,
+    for (u8_t i = 0; i < BTNS_MAX; i++)
+    {
+        gpio_pin_configure(btns.port, btns.btn[i],
                GPIO_DIR_IN | GPIO_INT | GPIO_PUD_PULL_UP | EDGE);
+        gpio_init_callback(&gpio_cb[i], button_pressed, BIT(btns.btn[i]));
+        gpio_add_callback(btns.port, &gpio_cb[i]);
+        gpio_pin_enable_callback(btns.port, btns.btn[i]);
+    }
 
-    gpio_init_callback(&gpio_cb, button_pressed, BIT(BTN_PIN));
-
-    gpio_add_callback(btn, &gpio_cb);
-    gpio_pin_enable_callback(btn, BTN_PIN);
-    printk("BTN %d init done\n", BTN_PIN);
+    printk("BTNs init done\n");
 }

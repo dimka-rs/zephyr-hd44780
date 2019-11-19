@@ -2,17 +2,27 @@
 #define BUTTON_H
 
 #define BTN_PORT    ("GPIO_0")
-#define BTN_PIN     (13)
+#define BTN1_PIN     (13)
+#define BTN2_PIN     (14)
+#define BTN3_PIN     (15)
+#define BTN4_PIN     (16)
 
-#ifdef DT_ALIAS_SW0_GPIOS_FLAGS
-#define EDGE    (DT_ALIAS_SW0_GPIOS_FLAGS | GPIO_INT_EDGE)
-#else
-/*
- * If DT_ALIAS_SW0_GPIOS_FLAGS not defined used default EDGE value.
- * Change this to use a different interrupt trigger
- */
 #define EDGE    (GPIO_INT_EDGE | GPIO_INT_ACTIVE_LOW)
-#endif
+
+enum btns_e
+{
+    BTN1,
+    BTN2,
+    BTN3,
+    BTN4,
+    BTNS_MAX
+};
+
+struct btns_s
+{
+    struct device *port;
+    u32_t btn[BTNS_MAX];
+};
 
 void button_init();
 

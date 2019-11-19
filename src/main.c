@@ -14,7 +14,7 @@ const u8_t str2[] = "@NordicTweets";
 
 void main(void)
 {
-    u32_t val = 0, i;
+    u32_t i;
     printk("start app\n");
 
     button_init();
