@@ -7,7 +7,9 @@
 	"settings": {
 		"files.associations": {
 			"inttypes.h": "c",
-			"gpio.h": "c"
+			"gpio.h": "c",
+			"zephyr.h": "c",
+			"nrf_saadc.h": "c"
 		}
 	}
 }

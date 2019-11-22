@@ -4,8 +4,10 @@
             "name": "Linux",
             "includePath": [
                 "${workspaceFolder}/**",
-                "${env:HOME}/repos/zephyr/**",
-                "${env:HOME}/repos/zephyr/zephyr/include"
+                "${env:HOME}/repos/zephyrproject/**",
+                "${env:HOME}/repos/zephyrproject/zephyr/**",
+                "${env:HOME}/repos/zephyrproject/zephyr/include/**",
+                "${env:HOME}/repos/zephyrproject/zephyr/modules/**"
             ],
             "defines": [],
             "compilerPath": "${env:HOME}/apps/zephyr-sdk-0.10.3/arm-zephyr-eabi/bin/arm-zephyr-eabi-gcc",
