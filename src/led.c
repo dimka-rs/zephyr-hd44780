@@ -13,15 +13,15 @@ static struct leds_s leds = {
 };
 
 void
-len_on(u8_t l)
+len_on(uint8_t l)
 {
-    gpio_pin_write(leds.port, leds.led[l], 1);
+    gpio_pin_set(leds.port, leds.led[l], 1);
 }
 
 void
-len_off(u8_t l)
+len_off(uint8_t l)
 {
-    gpio_pin_write(leds.port, leds.led[l], 0);
+    gpio_pin_set(leds.port, leds.led[l], 0);
 }
 
 void
@@ -34,9 +34,9 @@ led_init()
     }
 
     /* Set LEDs pins as output */
-    for(u8_t i = 0; i < LEDS_MAX; i++)
+    for(uint8_t i = 0; i < LEDS_MAX; i++)
     {
-        gpio_pin_configure(leds.port, leds.led[i], GPIO_DIR_OUT);
+        gpio_pin_configure(leds.port, leds.led[i], GPIO_OUTPUT);
     }
     printk("LEDs init done\n");
 }

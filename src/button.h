@@ -20,8 +20,8 @@ enum btns_e
 
 struct btns_s
 {
-    struct device *port;
-    u32_t btn[BTNS_MAX];
+    const struct device *port;
+    uint32_t btn[BTNS_MAX];
 };
 
 void button_init();

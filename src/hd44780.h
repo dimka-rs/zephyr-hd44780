@@ -66,14 +66,14 @@ enum hd44780_cmds
 
 struct hd44780_display
 {
-    struct device *port;
-    u32_t pin[PINS_MAX];
+    const struct device *port;
+    uint32_t pin[PINS_MAX];
 };
 
 void hd44780_init();
-void hd44780_cmd(u8_t cmd, u8_t flags);
-void hd44780_data(u8_t val);
-void hd44780_pos(u8_t row, u8_t col);
+void hd44780_cmd(uint8_t cmd, uint8_t flags);
+void hd44780_data(uint8_t val);
+void hd44780_pos(uint8_t row, uint8_t col);
 
 
 #endif // HD44780_H

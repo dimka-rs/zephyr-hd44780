@@ -9,5 +9,11 @@ clean:
 flash:
 	west flash
 
+menuconfig:
+	west build -t menuconfig
+
+guiconfig:
+	west build -t guiconfig
+
 init:
 	@echo "source $(HOME)/repos/zephyrproject/zephyr/zephyr-env.sh"

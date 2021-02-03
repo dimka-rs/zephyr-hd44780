@@ -8,13 +8,13 @@
 #include "hd44780.h"
 #include "adc.h"
 
-const u8_t str1[] = "@ZephyrIoT";
-const u8_t str2[] = "@NordicTweets";
+const uint8_t str1[] = "@ZephyrIoT";
+const uint8_t str2[] = "@NordicTweets";
 
 void main(void)
 {
-    u32_t i;
-    u8_t col = 0, btn = 0;
+    uint32_t i;
+    uint8_t col = 0, btn = 0;
     printk("start app\n");
 
     button_init();
@@ -73,7 +73,7 @@ void main(void)
                 break;
         }
 
-        k_sleep(1000);
+        k_sleep(K_MSEC(1000));
     }
 }
 

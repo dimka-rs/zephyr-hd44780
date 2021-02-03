@@ -7,7 +7,6 @@
 
 // NRF52 specific
 #include <hal/nrf_saadc.h>
-#define ADC_DEVICE_NAME		DT_ADC_0_NAME
 #define ADC_RESOLUTION		10
 #define ADC_GAIN		ADC_GAIN_1_6
 #define ADC_REFERENCE		ADC_REF_INTERNAL
@@ -17,8 +16,8 @@
 //#define ADC_2ND_CHANNEL_ID	2
 //#define ADC_2ND_CHANNEL_INPUT	NRF_SAADC_INPUT_AIN2
 
-static s16_t sample;
-static struct device *adc_dev;
+static int16_t sample;
+const static struct device *adc_dev;
 
 static const struct adc_channel_cfg m_1st_channel_cfg = {
 	.gain             = ADC_GAIN,
@@ -34,7 +33,7 @@ static const struct adc_channel_cfg m_1st_channel_cfg = {
 void
 adc_init()
 {
-    adc_dev = device_get_binding(ADC_DEVICE_NAME);
+    adc_dev = device_get_binding("adc");
     if (!adc_dev)
         printk("Failed to get ADC device\n");
 
@@ -45,10 +44,10 @@ adc_init()
     printk("ADC init done\n");
 }
 
-u8_t
+uint8_t
 adc_sample()
 {
-    u8_t btn = 0;
+    uint8_t btn = 0;
     int ret;
     const struct adc_sequence sequence = {
         .channels    = BIT(ADC_1ST_CHANNEL_ID),
@@ -67,7 +66,7 @@ adc_sample()
 
     printk("ADC read: %d\t", sample);
     // open     - 3.4 V - 480..500
-    // select   - 3.1 V - 860..890
+    // select   - 3.1 V - 850..890
     // left     - 2.0 V - 550..560
     // down     - 1.2 V - 345..355
     // up       - 0.5 V - 130..140
@@ -79,7 +78,7 @@ adc_sample()
         printk("none");
         btn = btn_none;
     }
-    else if (sample > 860 && sample < 890 )
+    else if (sample > 850 && sample < 890 )
     {
         printk("select");
         btn = btn_select;

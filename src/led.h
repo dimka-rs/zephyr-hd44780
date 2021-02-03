@@ -18,14 +18,14 @@ enum leds_e
 
 struct leds_s
 {
-    struct device *port;
-    u32_t led[LEDS_MAX];
+    const struct device *port;
+    uint32_t led[LEDS_MAX];
 };
 
 
 void led_init();
-void len_on(u8_t l);
-void len_off(u8_t l);
+void len_on(uint8_t l);
+void len_off(uint8_t l);
 
 
 #endif // LED_H

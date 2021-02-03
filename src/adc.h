@@ -2,7 +2,7 @@
 #define ADC_C
 
 void adc_init();
-u8_t adc_sample();
+uint8_t adc_sample();
 
 enum adc_button
 {
