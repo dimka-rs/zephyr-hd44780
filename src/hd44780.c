@@ -23,7 +23,7 @@ hd44780_pulse()
     gpio_pin_set(disp.port, disp.pin[EN], 0);
 }
 
-inline static void
+static inline void
 hd44780_nibble(uint8_t n)
 {
     gpio_pin_set(disp.port, disp.pin[RS], 0); //cmd
@@ -51,7 +51,7 @@ hd44780_byte(uint8_t b)
     hd44780_pulse();
 
     // most commands take about 37 us, 1000 to be safe
-    k_usleep(1000);
+    k_usleep(10000);
 }
 
 void
@@ -102,18 +102,32 @@ hd44780_init()
     uint32_t i;
 
     disp.port = device_get_binding(HD44780_PORT);
+    if (disp.port == NULL)
+    {
+        printk("HD44780: Failed to get binding for " HD44780_PORT "\n");
+        return;
+    }
+
     for(i = 0; i < PINS_MAX; i++)
     {
-        gpio_pin_configure(disp.port, disp.pin[i], GPIO_OUTPUT);
+        int res = gpio_pin_configure(disp.port, disp.pin[i], GPIO_OUTPUT);
+        if (res != 0)
+        {
+            printk("HD44780: Failed to configure pin %u: %d\n", disp.pin[i], res);
+        }
     }
 
     // display starts in 8 bit mode, so first command must pulse enable only once
     // _nibble will do this using only high nibble, though only bus width can be set
-    hd44780_nibble(0x20);
+    hd44780_nibble(HD44780_CMD_CONFIG | HD44780_CONFIG_DATA4 );
     // this command is long
     k_sleep(K_MSEC(10));
+
+    // Display 16x2, Font 5x8
     hd44780_cmd(HD44780_CMD_CONFIG, HD44780_CONFIG_2LINES|HD44780_CONFIG_5X8|HD44780_CONFIG_DATA4);
     k_sleep(K_MSEC(10));
+
+    // On
     hd44780_cmd(HD44780_CMD_ONOFF, HD44780_ONOFF_DISP_ON);
     k_sleep(K_MSEC(10));
 

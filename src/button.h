@@ -1,11 +1,10 @@
 #ifndef BUTTON_H
 #define BUTTON_H
 
-#define BTN_PORT    ("GPIO_0")
+#define BTN_PORT     "GPIO_0"
 #define BTN1_PIN     (13)
 #define BTN2_PIN     (14)
-#define BTN3_PIN     (15)
-#define BTN4_PIN     (16)
+/* Pins 15 and 16 used for LCD */
 
 #define EDGE    (GPIO_INT_EDGE | GPIO_INT_ACTIVE_LOW)
 
@@ -13,8 +12,6 @@ enum btns_e
 {
     BTN1,
     BTN2,
-    BTN3,
-    BTN4,
     BTNS_MAX
 };
 

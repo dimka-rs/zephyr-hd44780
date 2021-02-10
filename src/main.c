@@ -2,7 +2,7 @@
 #include <sys/printk.h>
 #include <device.h>
 #include <drivers/gpio.h>
-#include <inttypes.h> 
+#include <inttypes.h>
 #include "button.h"
 #include "led.h"
 #include "hd44780.h"
@@ -15,11 +15,11 @@ void main(void)
 {
     uint32_t i;
     uint8_t col = 0, btn = 0;
-    printk("start app\n");
+    printk("Start App " __DATE__ " " __TIME__ "\n");
 
     button_init();
     hd44780_init();
-    adc_init();
+    //adc_init();
 
     while (1)
     {
@@ -41,7 +41,7 @@ void main(void)
             col = 0;
 
         hd44780_pos(0, 15);
-        btn = adc_sample();
+        //btn = adc_sample();
         switch (btn)
         {
             case btn_none:

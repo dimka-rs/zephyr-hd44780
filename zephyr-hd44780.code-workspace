@@ -9,7 +9,9 @@
 			"inttypes.h": "c",
 			"gpio.h": "c",
 			"zephyr.h": "c",
-			"nrf_saadc.h": "c"
+			"nrf_saadc.h": "c",
+			"hd44780.h": "c",
+			"button.h": "c"
 		}
 	}
 }

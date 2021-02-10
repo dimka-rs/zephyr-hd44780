@@ -14,7 +14,7 @@
  *  D9  0.20    EN
  */
 
-#define HD44780_PORT   ("GPIO_0")
+#define HD44780_PORT   "GPIO_0"
 #define HD44780_PIN_D4 (15)
 #define HD44780_PIN_D5 (16)
 #define HD44780_PIN_D6 (17)

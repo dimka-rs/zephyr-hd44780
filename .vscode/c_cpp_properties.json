@@ -10,10 +10,10 @@
                 "${env:HOME}/repos/zephyrproject/zephyr/modules/**"
             ],
             "defines": [],
-            "compilerPath": "${env:HOME}/apps/zephyr-sdk-0.10.3/arm-zephyr-eabi/bin/arm-zephyr-eabi-gcc",
+            "compilerPath": "${env:HOME}/zephyr-sdk/arm-zephyr-eabi/bin/arm-zephyr-eabi-gcc",
             "cStandard": "c11",
             "cppStandard": "c++17",
-            "intelliSenseMode": "gcc-x86"
+            "intelliSenseMode": "linux-gcc-x86"
         }
     ],
     "version": 4
